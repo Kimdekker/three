@@ -32,7 +32,7 @@ const Scene = () => {
             />
             <ambientLight intensity={0.1}/>
             
-            <SphereMesh position={[0, 0, 0]} color={'white'} size={[1, 30, 30]}/>
+            {/* <SphereMesh position={[0, 0, 0]} color={'white'} size={[1, 30, 30]}/> */}
 
             <TorusKnotMesh position={[0, 0, 0]} color={lightColor} size={[0.2, 1000, 50]}/>
             <OrbitControls enableZoom={false} />
