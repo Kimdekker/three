@@ -1,8 +1,6 @@
 # React en Three.JS en een beetje GSAP
 
 ## Inhoudsopgave
-
-- [React en Three.JS en een beetje GSAP](#react-en-threejs-en-een-beetje-gsap)
   - [Inhoudsopgave](#inhoudsopgave)
   - [Installatie](#installatie)
   - [Gebruik](#gebruik)
