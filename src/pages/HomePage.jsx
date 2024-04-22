@@ -50,10 +50,6 @@ const HomePage = () => {
 
 
 
-
-
-
-
   return (
       <Canvas camera={{fov: 64, position: [2.3, 1.5, 2.3], }}>
 
@@ -64,9 +60,13 @@ const HomePage = () => {
 
       <FrameUpdate />
 
-      <group ref={trailRef}>
-        <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
-        <OrbitControls camera={cameraRef.current} enableZoom={false}/>
+      <OrbitControls enableZoom={false} enableRotate={false} enablePan={false} />
+
+      <group position={[0, 0, 0]}>
+        <group ref={trailRef}>
+          <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
+          <OrbitControls camera={cameraRef.current} enableZoom={false} />
+        </group>
       </group>
 
       </Canvas>
