@@ -1,4 +1,4 @@
-import { Canvas, useFrame } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { useLayoutEffect, useRef } from 'react';
 import { OrbitControls, PerspectiveCamera, ScrollControls, useScroll } from '@react-three/drei';
 import Office from '../components/Office';
@@ -10,69 +10,51 @@ export const NB_FLOORS = 3;
 
 const HomePage = () => {
 
-  const cameraRef = useRef();
-  const trailRef = useRef();
-  const tl = useRef();
-  console.log('timeline: ' + tl); 
-  const scroll = useScroll();
+  const cameraRef = useRef(null);
+  const trailRef = useRef(null);
+  
+  const tl = gsap.timeline();
 
+  const FrameUpdate = ({ tl }) => {
+    const scroll = useScroll();
 
-  const FrameUpdate = () => {
     useFrame(() => {
-      console.log('useFrame is running');
-      if (tl.current) {
-        console.log('tl.current exists'); 
-        tl.current.seek(scroll.offset * tl.current.duration());
-        console.log(scroll.offset); 
-      }
+        tl.seek(scroll.offset * tl.duration());
     });
-  
-    useLayoutEffect(() => {
-      console.log('useLayoutEffect is running');
-      if (trailRef.current) {
-        console.log('trailRef.current exists');
-        tl.current = gsap.timeline();
 
-        console.log(gsap.timeline());
-        // VERTICAL ANIMATION
-        tl.current.to(
-          trailRef.current.position,
-          {
-            duration: 2,
-            y: -FLOOR_HEIGHT * (NB_FLOORS - 1),
-          },
-          0
-        );
-      }
-    }, []);
-  
-    return null;
   };
-
+  
+  useLayoutEffect(() => {
+      // // VERTICAL ANIMATION
+      tl.to(
+        trailRef.current.position,
+        {
+          duration: 2,
+          y: 100,
+        },
+        0
+      );
+  }, []);
 
   return (
-      <Canvas>
-
-      <FrameUpdate />
-
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[1, 2, 3]} intensity={1} />
-
-      <OrbitControls enableZoom={false} />
+      <>
+        <ambientLight intensity={0.3} />
+        <directionalLight position={[1, 2, 3]} intensity={1} />
 
 
-      <ScrollControls damping={0.25} pages={9}>
+        <ScrollControls damping={0.25} pages={3}>
+          <FrameUpdate tl={tl} />
 
-      <Office />
+          <Office />
 
-        <group ref={trailRef} position={[1, 1, 1]}>
-            <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
-            <OrbitControls camera={cameraRef.current} enableZoom={false} />
-        </group>
+          <group dispose={null} ref={trailRef} position={[1, 1, 1]}>
+              <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
+              <OrbitControls enableZoom={false} />
+          </group>
 
-      </ScrollControls>
+        </ScrollControls>
 
-      </Canvas>
+      </>
   )
 }
 

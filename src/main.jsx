@@ -6,7 +6,7 @@ import { Leva } from 'leva'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Leva />
+    {/* <Leva /> */}
     <App />
   </React.StrictMode>,
 )
