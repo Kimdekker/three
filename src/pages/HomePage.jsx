@@ -1,17 +1,16 @@
 import { useFrame } from '@react-three/fiber';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
 import { OrbitControls, PerspectiveCamera, ScrollControls, useScroll } from '@react-three/drei';
 import Office from '../components/Office';
 import { gsap } from 'gsap';
-
 
 export const FLOOR_HEIGHT = 2.3;
 export const NB_FLOORS = 3;
 
 const HomePage = () => {
 
-  const cameraRef = useRef(null);
-  const trailRef = useRef(null);
+  const cameraRef = useRef();
+  const trailRef = useRef();
   
   const tl = gsap.timeline();
 
