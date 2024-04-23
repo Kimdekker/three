@@ -1,10 +1,10 @@
-import { useFrame } from '@react-three/fiber';
-import { useLayoutEffect, useMemo, useRef } from 'react';
-import { OrbitControls, PerspectiveCamera, ScrollControls, useScroll } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
+import { useEffect, useLayoutEffect, useRef } from 'react';
+import { PerspectiveCamera, PointerLockControls, ScrollControls, useScroll } from '@react-three/drei';
 import Office from '../components/Office';
 import { gsap } from 'gsap';
 
-export const FLOOR_HEIGHT = 2.3;
+export const FLOOR_HEIGHT = 1.1;
 export const NB_FLOORS = 3;
 
 const HomePage = () => {
@@ -29,11 +29,12 @@ const HomePage = () => {
         trailRef.current.position,
         {
           duration: 2,
-          y: 100,
+          y: 5,
         },
         0
       );
   }, []);
+
 
   return (
       <>
@@ -48,7 +49,7 @@ const HomePage = () => {
 
           <group dispose={null} ref={trailRef} position={[1, 1, 1]}>
               <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
-              <OrbitControls enableZoom={false} />
+              <PointerLockControls />
           </group>
 
         </ScrollControls>
