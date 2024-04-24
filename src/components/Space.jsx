@@ -146,7 +146,7 @@ const Space = ({view}) => {
 
           <group dispose={null} ref={trailRef} position={[1, 1, 1]}>
               <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
-              {/* <PointerLockControls /> */}
+              <PointerLockControls />
           </group>
 
         </ScrollControls>
