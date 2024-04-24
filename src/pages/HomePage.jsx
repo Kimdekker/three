@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 const HomePage = () => {
 
-  const [view, setView] = useState('office');
+  const [view, setView] = useState(0);
 
   const viewToTime = {
     'office': 0,
@@ -26,9 +26,9 @@ const HomePage = () => {
       </Canvas>
 
       <div className='btns'>
-        <Button onClick={() => handleButtonClick('office')} href='#office' text={'The Office'} />
-        <Button onClick={() => handleButtonClick('library')} href='#library' text={'The Library'} />
-        <Button onClick={() => handleButtonClick('attic')} href='#attic' text={'The Attic'} />
+        <Button onClick={() => handleButtonClick('office')} text={'The Office'} />
+        <Button onClick={() => handleButtonClick('library')} text={'The Library'} />
+        <Button onClick={() => handleButtonClick('attic')} text={'The Attic'} />
       </div>
 
       </>

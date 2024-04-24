@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { PerspectiveCamera, PointerLockControls, ScrollControls, useScroll } from '@react-three/drei';
 import Office from './Office';
 // import { PointerLockControls } from '../components/PointerLockControls';
@@ -9,7 +9,7 @@ import { gsap } from 'gsap';
 export const FLOOR_HEIGHT = 1.1;
 export const NB_FLOORS = 3;
 
-const Space = () => {
+const Space = ({view}) => {
 
   const cameraRef = useRef();
   const trailRef = useRef();
@@ -24,6 +24,11 @@ const Space = () => {
     });
 
   };
+
+
+  useEffect(() => {
+    tl.seek(view);
+  } , [view]);
   
   useLayoutEffect(() => {
       // 0
