@@ -22,20 +22,21 @@ body{
   justify-content: space-around;
 }
 
-
 button{
-  background-color: #84b64f;
-  color: rgb(214, 228, 219);
+  cursor: pointer;
+  background-color: #121212;
+  color: rgb(218, 218, 218);
   font-weight: 600;
   border-radius: .3em;
   padding: 0.8em 1em;
   transition: .3s ease-in-out;
   position: relative;
   width: max-content;
+  z-index: 100;
 }
 
 button:hover, button:focus{
-  background-color: #c77f91;
+  background-color: #433e3e;
   color: rgb(214, 228, 219);
 }
 
