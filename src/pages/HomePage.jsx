@@ -2,27 +2,22 @@ import Space from '../components/Space'
 import Button from '../components/Button'
 import { Canvas } from '@react-three/fiber'
 import { useState } from 'react'
-
+import { ScrollControls } from '@react-three/drei'
 
 const HomePage = () => {
 
-  const [view, setView] = useState(0);
+  const [view, setView] = useState('');
 
-  const viewToTime = {
-    'office': 0,
-    'library': 3,
-    'attic': 5,
-  }
-
-  const handleButtonClick = (newView) => {
-    const time = viewToTime[newView];
-    setView(time);
-  }
+    const handleButtonClick = (view) => {
+      setView(view);
+    }
 
   return (
       <>
       <Canvas>
-        <Space view={view} />
+        <ScrollControls damping={0.25} pages={3}>
+          <Space view={view} />
+        </ScrollControls>
       </Canvas>
 
       <div className='btns'>

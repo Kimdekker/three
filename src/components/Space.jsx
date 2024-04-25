@@ -1,136 +1,139 @@
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { PerspectiveCamera, PointerLockControls, ScrollControls, useScroll } from '@react-three/drei';
 import Office from './Office';
+
 // import { PointerLockControls } from '../components/PointerLockControls';
 import { gsap } from 'gsap';
-
-
-export const FLOOR_HEIGHT = 1.1;
-export const NB_FLOORS = 3;
 
 const Space = ({view}) => {
 
   const cameraRef = useRef();
   const trailRef = useRef();
-  
-  const tl = gsap.timeline();
+  const tl = useRef(gsap.timeline({ paused: true }));
+  const [isUpdating, setIsUpdating] = useState(true);
+  const scroll = useScroll();
+
 
   const FrameUpdate = ({ tl }) => {
     const scroll = useScroll();
-
     useFrame(() => {
-        tl.seek(scroll.offset * tl.duration());
+      if (isUpdating) {
+        console.log(scroll.offset)
+        tl.current.seek(scroll.offset * tl.current.duration());
+      }
     });
 
   };
 
+  // const storeAndScroll = () => {
+  //   const currentScrollY = window.scrollY;
+
+  //   console.log(currentScrollY);
+
+  //   const scrollToPosition = (position) => {
+  //     scroll.el.scrollTo(0, position);
+  //   }
+
+  //   scrollToPosition(currentScrollY);
+  // }
+
+  const SeekSmooth = (label) => {
+    setIsUpdating(false);
+    gsap.to(tl.current, {
+      duration: 2.5,
+      progress: tl.current.labels[label] / tl.current.duration(),
+      ease: "power4.inOut",
+      onComplete: () => {
+        const position = tl.current.progress() * scroll.el.scrollHeight;
+        console.log(tl.current.progress());
+        scroll.el.scrollTo(0, position);
+        
+        setTimeout(() => {
+          console.log('seek smooth scroll ofset', scroll.offset);
+          setIsUpdating(true)
+        }, 1000);
+        // tl.current.progress(storeAndScroll);
+        
+      }
+    });
+  };
 
   useEffect(() => {
-    tl.seek(view);
+    if (view) {
+      SeekSmooth(view);
+    }
   } , [view]);
+
+
   
   useLayoutEffect(() => {
       // 0
-      tl.to( // position
+      tl.current.to( // position
         trailRef.current.position,
         {
-          duration: 1,
           y: 1.5,
           x: 0,
           z: 0,
-          ease: "power1.inOut" // Add easing here
-        },
-        0
-      );
-
+          ease: "none",
+        }
+      )
+      .addLabel('office')
 
       // 1
-      tl.to( // position
+      .to( // position
         trailRef.current.position,
         {
-          duration: 1,
           y: 2,
           x: -2,
           z: 0,
-          ease: "power1.inOut" // Add easing here
-        },
-        1
-      );
-      tl.to( // rotation
+        }
+      )
+      .to( // rotation
         trailRef.current.rotation,
         {
-          duration: 3,
           y: -Math.PI / 2,
+          ease: "none",
+          duration: 1
         },
-        1
-      );
+      )
 
 
       // 2
-      tl.to( // position
+      .to( // position
         trailRef.current.position,
         {
-          duration: 1,
           y: 4,
           x: -4,
           z: 0,
-          ease: "power1.inOut" // Add easing here
-        },
-        2
-      );
+          ease: "none",
+        }
+      )
+      .addLabel('library')
 
 
       // 3
-      tl.to( // position
+      .to( // position
         trailRef.current.position,
         {
-          duration: 1,
           y: 5,
           x: -6,
           z: -2,
-          ease: "power1.inOut" // Add easing here
-        },
-        3
-      );
+          ease: "none",
+        }
+      )
 
-      // 4
-      tl.to( // position
-        trailRef.current.position,
+      .to( // rotation
+        trailRef.current.rotation,
         {
+          y: -Math.PI / 1.5,
+          ease: "none",
           duration: 1,
-          y: 6,
-          x: -7,
-          z: -4,
-          ease: "power1.inOut" // Add easing here
-        },
-        4
-      );
+        }
+      )
+      .addLabel('attic');
 
-      tl.to( // rotation
-      trailRef.current.rotation,
-      {
-        duration: 2,
-        y: -Math.PI,
-      },
-      4
-    );
-
-
-      // 5
-      tl.to( // position
-        trailRef.current.position,
-        {
-          duration: 1,
-          y: 7,
-          x: -5,
-          z: -6,
-          ease: "power1.inOut" // Add easing here
-        },
-        5
-      );
   }, []);
-
 
 
   return (
@@ -139,7 +142,7 @@ const Space = ({view}) => {
         <directionalLight position={[2, 2, 2]} intensity={0.7} />
 
 
-        <ScrollControls damping={0.25} pages={3}>
+        
           <FrameUpdate tl={tl} />
 
           <Office />
@@ -148,8 +151,6 @@ const Space = ({view}) => {
               <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
               <PointerLockControls />
           </group>
-
-        </ScrollControls>
 
       </>
   )
