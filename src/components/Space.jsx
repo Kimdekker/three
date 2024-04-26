@@ -14,7 +14,6 @@ const Space = ({view}) => {
   const [isUpdating, setIsUpdating] = useState(true);
   const scroll = useScroll();
 
-
   const FrameUpdate = ({ tl }) => {
     const scroll = useScroll();
     useFrame(() => {
@@ -25,18 +24,6 @@ const Space = ({view}) => {
     });
 
   };
-
-  // const storeAndScroll = () => {
-  //   const currentScrollY = window.scrollY;
-
-  //   console.log(currentScrollY);
-
-  //   const scrollToPosition = (position) => {
-  //     scroll.el.scrollTo(0, position);
-  //   }
-
-  //   scrollToPosition(currentScrollY);
-  // }
 
   const SeekSmooth = (label) => {
     setIsUpdating(false);
@@ -52,9 +39,7 @@ const Space = ({view}) => {
         setTimeout(() => {
           console.log('seek smooth scroll ofset', scroll.offset);
           setIsUpdating(true)
-        }, 1000);
-        // tl.current.progress(storeAndScroll);
-        
+        }, 1000);        
       }
     });
   };
