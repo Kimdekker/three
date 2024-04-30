@@ -3,6 +3,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { PerspectiveCamera, PointerLockControls, useScroll } from '@react-three/drei';
 import Office from './Office';
 import { gsap } from 'gsap';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+
+gsap.registerPlugin(MotionPathPlugin);
 
 const Space = ({view}) => {
 
@@ -48,84 +51,34 @@ const Space = ({view}) => {
   } , [view]);
 
 
+
+
   // EASEN OP DE CAMERA ?
   useLayoutEffect(() => { // timeline path
       // 0
-      tl.current.to( // position
-        trailRef.current.position,
-        {
-          y: 1.5,
-          x: 0,
-          z: 0,
-          ease: "none",
-        }
-      )
+      tl.current.to(trailRef.current.position, { // position
+        motionPath: {
+          path: [{y: 1.5, x: 0, z: 0}, {y: 2, x: -2, z: 0}, {y: 4, x: -4, z: 0}, {y: 5, x: -6, z: -2}],
+          curviness: 1,
+          autoRotate: true
+        },
+        duration: 5,
+        ease: "none",
+      })
       .addLabel('office')
 
-      // 1
-      .to( // position
-        trailRef.current.position,
-        {
-          y: 2,
-          x: -2,
-          z: 0,
-          ease: "none",
-        }
-      )
-      .to( // rotation
-        trailRef.current.rotation,
-        {
-          y: -Math.PI / 2,
-          duration: 1,
-          ease: "none",
+
+      .to(trailRef.current.rotation, { // rotation
+        motionPath: {
+          path: [{y: -Math.PI / 2}, {y: -Math.PI / 1.5}, {y: -Math.PI / 1.5}],
+          curviness: 5,
+          autoRotate: true
         },
-      )
-      .addLabel('library')
-
-
-      // 2
-      .to( // position
-        trailRef.current.position,
-        {
-          y: 4,
-          x: -4,
-          z: 0,
-          ease: "none",
-        }
-      )
-
-
-
-      // 3
-      .to( // position
-        trailRef.current.position,
-        {
-          y: 5,
-          x: -6,
-          z: -2,
-          ease: "none",
-        }
-      )
-
-      .to( // rotation
-        trailRef.current.rotation,
-        {
-          y: -Math.PI / 1.5,
-          duration: 1,
-          ease: "none",
-        }
-      )
-      .addLabel('attic')
-
-
-      .to( // rotation
-      trailRef.current.rotation,
-      {
-        y: -Math.PI / 1.5,
-        duration: 1,
+        duration: 5,
         ease: "none",
-      }
-    )
+      })
+      .addLabel('library')
+      .addLabel('attic')
 
 
   }, []);
@@ -142,7 +95,7 @@ const Space = ({view}) => {
 
           <Office />
 
-          <group dispose={null} ref={trailRef} position={[1, 1, 1]}>
+          <group dispose={null} ref={trailRef} >
               <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
               <PointerLockControls />
           </group>
