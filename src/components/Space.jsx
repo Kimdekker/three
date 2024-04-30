@@ -51,12 +51,10 @@ const Space = ({view}) => {
   } , [view]);
 
 
-
-
-  // EASEN OP DE CAMERA ?
-  useLayoutEffect(() => { // timeline path
-      // 0
-      tl.current.to(trailRef.current.position, { // position
+  useLayoutEffect(() => {
+    tl.current
+      .addLabel('office')
+      .to(trailRef.current.position, { // position
         motionPath: {
           path: [{y: 1.5, x: 0, z: 0}, {y: 2, x: -2, z: 0}, {y: 4, x: -4, z: 0}, {y: 5, x: -6, z: -2}],
           curviness: 1,
@@ -65,22 +63,17 @@ const Space = ({view}) => {
         duration: 5,
         ease: "none",
       })
-      .addLabel('office')
-
-
+      .addLabel('library')
+  
       .to(trailRef.current.rotation, { // rotation
         motionPath: {
           path: [{y: -Math.PI / 2}, {y: -Math.PI / 1.5}, {y: -Math.PI / 1.5}],
-          curviness: 5,
-          autoRotate: true
         },
-        duration: 5,
-        ease: "none",
-      })
-      .addLabel('library')
+        duration: 6,
+        ease: "power1.inOut",
+      }, 
+      "<")
       .addLabel('attic')
-
-
   }, []);
 
 
