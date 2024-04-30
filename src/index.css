@@ -40,3 +40,14 @@ button:hover, button:focus{
   color: rgb(214, 228, 219);
 }
 
+
+svg.demo {
+  width:80%;
+  min-width:380px;
+}
+
+.demo path {
+  fill:none;
+  stroke-width:10px;
+  stroke: #121212;
+}

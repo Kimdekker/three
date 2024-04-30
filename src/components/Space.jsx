@@ -1,9 +1,7 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { PerspectiveCamera, PointerLockControls, ScrollControls, useScroll } from '@react-three/drei';
+import { PerspectiveCamera, PointerLockControls, useScroll } from '@react-three/drei';
 import Office from './Office';
-
-// import { PointerLockControls } from '../components/PointerLockControls';
 import { gsap } from 'gsap';
 
 const Space = ({view}) => {
@@ -14,18 +12,19 @@ const Space = ({view}) => {
   const [isUpdating, setIsUpdating] = useState(true);
   const scroll = useScroll();
 
-  const FrameUpdate = ({ tl }) => {
+
+  const FrameUpdate = ({ tl }) => { // timing bug fixed, skipt de laatste frame alleen, maar ik hebhet laatste frame gewoon gecopy paste, dan werkt het wel :)
     const scroll = useScroll();
     useFrame(() => {
       if (isUpdating) {
-        console.log(scroll.offset)
-        tl.current.seek(scroll.offset * tl.current.duration());
+        const position = scroll.el.scrollTop / scroll.el.scrollHeight;
+        tl.current.seek(position * tl.current.duration());
       }
     });
-
   };
 
-  const SeekSmooth = (label) => {
+
+  const SeekSmooth = (label) => { // to seek a certain point inside the timeline, in a smooth way
     setIsUpdating(false);
     gsap.to(tl.current, {
       duration: 2.5,
@@ -33,11 +32,9 @@ const Space = ({view}) => {
       ease: "power4.inOut",
       onComplete: () => {
         const position = tl.current.progress() * scroll.el.scrollHeight;
-        console.log(tl.current.progress());
         scroll.el.scrollTo(0, position);
         
         setTimeout(() => {
-          console.log('seek smooth scroll ofset', scroll.offset);
           setIsUpdating(true)
         }, 1000);        
       }
@@ -51,8 +48,8 @@ const Space = ({view}) => {
   } , [view]);
 
 
-  
-  useLayoutEffect(() => {
+  // EASEN OP DE CAMERA ?
+  useLayoutEffect(() => { // timeline path
       // 0
       tl.current.to( // position
         trailRef.current.position,
@@ -72,16 +69,18 @@ const Space = ({view}) => {
           y: 2,
           x: -2,
           z: 0,
+          ease: "none",
         }
       )
       .to( // rotation
         trailRef.current.rotation,
         {
           y: -Math.PI / 2,
+          duration: 1,
           ease: "none",
-          duration: 1
         },
       )
+      .addLabel('library')
 
 
       // 2
@@ -94,7 +93,7 @@ const Space = ({view}) => {
           ease: "none",
         }
       )
-      .addLabel('library')
+
 
 
       // 3
@@ -112,11 +111,22 @@ const Space = ({view}) => {
         trailRef.current.rotation,
         {
           y: -Math.PI / 1.5,
-          ease: "none",
           duration: 1,
+          ease: "none",
         }
       )
-      .addLabel('attic');
+      .addLabel('attic')
+
+
+      .to( // rotation
+      trailRef.current.rotation,
+      {
+        y: -Math.PI / 1.5,
+        duration: 1,
+        ease: "none",
+      }
+    )
+
 
   }, []);
 
