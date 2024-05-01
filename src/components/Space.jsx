@@ -15,7 +15,6 @@ const Space = ({view}) => {
   const [isUpdating, setIsUpdating] = useState(true);
   const scroll = useScroll();
 
-
   const FrameUpdate = ({ tl }) => { // timing bug fixed, skipt de laatste frame alleen, maar ik hebhet laatste frame gewoon gecopy paste, dan werkt het wel :)
     const scroll = useScroll();
     useFrame(() => {
