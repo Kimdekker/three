@@ -20,6 +20,11 @@ const HomePage = () => {
         </ScrollControls>
       </Canvas>
 
+      <div className='pointer'>
+        <span />
+        <span />
+      </div>
+
       <div className='btns'>
         <Button onClick={() => handleButtonClick('office')} text={'The Office'} />
         <Button onClick={() => handleButtonClick('library')} text={'The Library'} />

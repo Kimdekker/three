@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PerspectiveCamera, PointerLockControls, useScroll } from '@react-three/drei';
 import Office from './Office';
 import { gsap } from 'gsap';
@@ -51,7 +51,7 @@ const Space = ({view}) => {
   } , [view]);
 
 
-  useLayoutEffect(() => {
+  useEffect(() => { //timeline frames
     tl.current
       .addLabel('office')
       .to(trailRef.current.position, { // position
@@ -70,11 +70,12 @@ const Space = ({view}) => {
           path: [{y: -Math.PI / 2}, {y: -Math.PI / 1.5}, {y: -Math.PI / 1.5}],
         },
         duration: 6,
-        ease: "power1.inOut",
+        ease: "none",
       }, 
       "<")
       .addLabel('attic')
   }, []);
+
 
 
   return (

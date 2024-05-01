@@ -51,3 +51,55 @@ svg.demo {
   stroke-width:10px;
   stroke: #121212;
 }
+
+
+.pointer{
+  position: absolute;
+  top: 50%; 
+  right: 50%;
+  transform: translate(50%,-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  height: max-content;
+}
+
+
+.pointer span:first-of-type{
+  position: absolute;
+  width: .9em;
+  height: .9em;
+  background-color: #ffffff;
+  border-radius: 1em;
+  mix-blend-mode: difference;
+}
+
+.pointer span:last-of-type{
+  position: absolute;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 1em;
+  mix-blend-mode: difference;
+  transition: .1s ease-in-out;
+}
+
+
+.pointer span:hover{
+  animation: pulse 1s infinite ease-in-out;
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
