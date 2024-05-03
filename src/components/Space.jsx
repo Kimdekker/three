@@ -4,6 +4,7 @@ import { PerspectiveCamera, PointerLockControls, useScroll } from '@react-three/
 import Office from './Office';
 import { gsap } from 'gsap';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import CustomControls from '../components/CustomControls';
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -90,7 +91,8 @@ const Space = ({view}) => {
 
           <group dispose={null} ref={trailRef} >
               <PerspectiveCamera ref={cameraRef} makeDefault position={[2.3, 1.5, 2.3]}/>
-              <PointerLockControls />
+              {/* <PointerLockControls /> */}
+              <CustomControls />ß
           </group>
 
       </>
