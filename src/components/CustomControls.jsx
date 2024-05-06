@@ -8,27 +8,27 @@ const CustomControls = () => {
 
   // FIRST CODE --------------------------------------------------------------------------------------------------------------------------------------------
 
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      const dx = (window.innerWidth / 2 - event.clientX) / window.innerWidth;
-      const dy = (window.innerHeight / 2 - event.clientY) / window.innerHeight;
+  // useEffect(() => {
+  //   const handleMouseMove = (event) => {
+  //     const dx = (window.innerWidth / 2 - event.clientX) / window.innerWidth;
+  //     const dy = (window.innerHeight / 2 - event.clientY) / window.innerHeight;
 
-      velocity.current.x = dx;
-      velocity.current.y = dy;
-    };
+  //     velocity.current.x = dx;
+  //     velocity.current.y = dy;
+  //   };
 
-    window.addEventListener('mousemove', handleMouseMove);
+  //   window.addEventListener('mousemove', handleMouseMove);
 
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('mousemove', handleMouseMove);
+  //   };
+  // }, []);
 
-  useFrame(() => {
-    camera.position.x += velocity.current.x;
-    camera.position.y += velocity.current.y;
-    camera.lookAt(0, 0, 0);
-  });
+  // useFrame(() => {
+  //   camera.position.x += velocity.current.x;
+  //   camera.position.y += velocity.current.y;
+  //   camera.lookAt(0, 0, 0);
+  // });
 
 // ONE ---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -103,6 +103,32 @@ const CustomControls = () => {
 //     camera.rotation.x += velocity.current.y;
 //     camera.lookAt(0, 0, 0);
 //   });
+
+
+
+// FOUR -----------------------------------------------------------------------------------------------------------------------------------------------------
+
+useEffect(() => {
+  const handleMouseMove = (event) => {
+    const dx = (window.innerWidth / 2 - event.clientX) / window.innerWidth;
+    const dy = (window.innerHeight / 2 - event.clientY) / window.innerHeight;
+
+    velocity.current.x = dx;
+    velocity.current.y = dy;
+  };
+
+  window.addEventListener('mousemove', handleMouseMove);
+
+  return () => {
+    window.removeEventListener('mousemove', handleMouseMove);
+  };
+}, []);
+
+useFrame(() => {
+  const rotationSpeed = 0.015;
+  camera.rotation.y += velocity.current.x * rotationSpeed;
+  camera.rotation.x += velocity.current.y * rotationSpeed;
+});
 
 
   return null;
